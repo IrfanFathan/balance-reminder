@@ -34,9 +34,13 @@ export default function AddTransaction() {
       toast.error('Select a customer and enter an amount')
       return
     }
+    const amount = parseFloat(form.amount)
+    if (isNaN(amount) || amount <= 0) {
+      toast.error('Amount must be greater than zero')
+      return
+    }
     setLoading(true)
     try {
-      const amount = parseFloat(form.amount)
       const { data: customer, error: fetchError } = await supabase
         .from('customers')
         .select('total_amount, paid_amount')

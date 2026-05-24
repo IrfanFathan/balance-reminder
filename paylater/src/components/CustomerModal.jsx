@@ -56,14 +56,20 @@ export default function CustomerModal({ isOpen, customer, onClose, onSave }) {
       toast.error('Name and phone are required')
       return
     }
+    const totalAmount = Number(form.total_amount) || 0
+    const paidAmount = Number(form.paid_amount) || 0
+    if (totalAmount < 0 || paidAmount < 0) {
+      toast.error('Amounts cannot be negative')
+      return
+    }
 
     setSaving(true)
     try {
       const data = {
         name: form.name.trim(),
         phone: form.phone.trim(),
-        total_amount: Number(form.total_amount) || 0,
-        paid_amount: Number(form.paid_amount) || 0,
+        total_amount: totalAmount,
+        paid_amount: paidAmount,
         purchase_details: form.purchase_details.trim(),
         last_purchase_date: form.last_purchase_date || null,
         notes: form.notes.trim(),

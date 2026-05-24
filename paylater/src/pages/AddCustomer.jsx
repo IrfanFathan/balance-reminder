@@ -33,13 +33,19 @@ export default function AddCustomer() {
       toast.error('Name and phone are required')
       return
     }
+    const totalAmount = parseFloat(form.total_amount) || 0
+    const paidAmount = parseFloat(form.paid_amount) || 0
+    if (totalAmount < 0 || paidAmount < 0) {
+      toast.error('Amounts cannot be negative')
+      return
+    }
     setLoading(true)
     try {
       const data = {
         name: form.name.trim(),
         phone: form.phone.trim(),
-        total_amount: parseFloat(form.total_amount) || 0,
-        paid_amount: parseFloat(form.paid_amount) || 0,
+        total_amount: totalAmount,
+        paid_amount: paidAmount,
         purchase_details: form.purchase_details.trim(),
         notes: form.notes.trim(),
         language_preference: form.language_preference,
