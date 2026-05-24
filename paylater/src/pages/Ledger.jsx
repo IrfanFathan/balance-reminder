@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { supabase } from '../lib/supabase'
-import { generateMessage } from '../lib/messages'
 import BottomNav from '../components/BottomNav'
 
 export default function Ledger() {
@@ -11,23 +10,6 @@ export default function Ledger() {
   const customerId = searchParams.get('id')
   const [customer, setCustomer] = useState(null)
   const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session) {
-        navigate('/', { replace: true })
-        return
-      }
-      if (!customerId) {
-        // No customer ID provided — go back to customer list
-        navigate('/customers', { replace: true })
-        return
-      }
-      fetchCustomer(customerId)
-    }
-    checkSession()
-  }, [navigate, customerId])
 
   const fetchCustomer = async (id) => {
     setLoading(true)
@@ -46,15 +28,22 @@ export default function Ledger() {
     }
   }
 
-  const handleWhatsApp = () => {
-    if (!customer) return
-    const message = generateMessage(customer)
-    const encoded = encodeURIComponent(message)
-    let phone = customer.phone.replace(/\D/g, '')
-    // Prepend India country code if the number looks like a local 10-digit number
-    if (phone.length === 10) phone = `91${phone}`
-    window.open(`https://wa.me/${phone}?text=${encoded}`, '_blank')
-  }
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) {
+        navigate('/', { replace: true })
+        return
+      }
+      if (!customerId) {
+        // No customer ID provided — go back to customer list
+        navigate('/customers', { replace: true })
+        return
+      }
+      fetchCustomer(customerId)
+    }
+    checkSession()
+  }, [navigate, customerId])
 
   if (loading) {
     return (

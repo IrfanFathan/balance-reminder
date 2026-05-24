@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import StatusBadge from './StatusBadge'
 import WhatsAppButton from './WhatsAppButton'
 
-export default function CustomerCard({ customer, onEdit, onDelete, onSendReminder }) {
+export default function CustomerCard({ customer, onEdit, onDelete }) {
   const navigate = useNavigate()
   const balance = Number(customer.remaining_balance)
   const isPending = balance > 0

@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import toast from 'react-hot-toast'
-import BottomNav from '../components/BottomNav'
 
 export default function AddCustomer() {
   const navigate = useNavigate()

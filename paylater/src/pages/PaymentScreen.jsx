@@ -18,6 +18,23 @@ export default function PaymentScreen() {
   // Stunning post-payment success screen
   const [isPaidSuccess, setIsPaidSuccess] = useState(false)
 
+  const fetchCustomer = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('customers')
+        .select('*')
+        .eq('id', customerId)
+        .single()
+      if (error) throw error
+      setCustomer(data)
+      setSelectedLanguage(data.language_preference || 'english')
+    } catch {
+      toast.error('Failed to load customer profile')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
     const init = async () => {
       const { data: { session } } = await supabase.auth.getSession()
@@ -32,24 +49,8 @@ export default function PaymentScreen() {
       await fetchCustomer()
     }
     init()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate, customerId])
-
-  const fetchCustomer = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('customers')
-        .select('*')
-        .eq('id', customerId)
-        .single()
-      if (error) throw error
-      setCustomer(data)
-      setSelectedLanguage(data.language_preference || 'english')
-    } catch (err) {
-      toast.error('Failed to load customer profile')
-    } finally {
-      setLoading(false)
-    }
-  }
 
   // Generate HSL color based on name hash for harmony
   const getAvatarColor = (name) => {
@@ -84,6 +85,7 @@ export default function PaymentScreen() {
   // Construct Indian UPI Deep Link
   // Merchant details defaults to merchant VPA or standard mock
   const upiUrl = `upi://pay?pa=merchant@upi&pn=PayLater%20Store&am=${balance}&cu=INR`
+  // eslint-disable-next-line no-unused-vars
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`
 
   // Bilingual Templates
@@ -171,7 +173,7 @@ export default function PaymentScreen() {
       
       setReminderOpen(false)
       toast.success('Opening WhatsApp to send reminder!')
-    } catch (err) {
+    } catch {
       toast.error('Failed to update language preference')
     } finally {
       setUpdating(false)
@@ -251,17 +253,18 @@ export default function PaymentScreen() {
         </div>
       </div>
 
-      {/* Middle QR Box */}
+      {/* Middle QR Box (DISABLED TEMPORARILY) */}
       <div className="flex flex-col items-center justify-center my-8">
-        <div className="bg-white p-4 shadow-[0_4px_24px_rgba(0,0,0,0.06)] border border-[#EAEAEA] flex items-center justify-center mb-3">
-          <img
-            src={qrCodeUrl}
-            alt="UPI QR Code"
-            className="w-[220px] h-[220px] object-contain select-none"
-            draggable="false"
-          />
+        <div className="bg-gray-50 border border-dashed border-[#D1D1D6] flex flex-col items-center justify-center mb-3" style={{ width: '252px', height: '252px' }}>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" strokeWidth="2" className="mb-3 animate-pulse">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          <p className="text-[13px] text-center font-semibold text-[#8E8E93] px-4 leading-relaxed">
+            QR Code Payment<br />Temporarily Disabled
+          </p>
         </div>
-        <p className="text-[13px] text-muted font-semibold tracking-wider uppercase">Scan to Pay</p>
+        <p className="text-[12px] text-[#8E8E93] font-semibold tracking-wider uppercase">Feature Unavailable</p>
       </div>
 
       {/* Bottom Buttons */}

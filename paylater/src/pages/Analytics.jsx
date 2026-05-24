@@ -10,18 +10,6 @@ export default function Analytics() {
   const [customers, setCustomers] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session) {
-        navigate('/', { replace: true })
-        return
-      }
-      fetchCustomers()
-    }
-    checkSession()
-  }, [navigate])
-
   const fetchCustomers = async () => {
     setLoading(true)
     try {
@@ -37,6 +25,18 @@ export default function Analytics() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) {
+        navigate('/', { replace: true })
+        return
+      }
+      fetchCustomers()
+    }
+    checkSession()
+  }, [navigate])
 
   const totalPending = useMemo(
     () => customers.reduce((sum, c) => sum + Number(c.remaining_balance || 0), 0),

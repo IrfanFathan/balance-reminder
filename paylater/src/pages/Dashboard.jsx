@@ -22,18 +22,6 @@ export default function Dashboard() {
   const [customerToDelete, setCustomerToDelete] = useState(null)
   const [transactionModalOpen, setTransactionModalOpen] = useState(false)
 
-  useEffect(() => {
-    const init = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session) {
-        navigate('/', { replace: true })
-        return
-      }
-      await fetchCustomers()
-    }
-    init()
-  }, [navigate])
-
   const fetchCustomers = async () => {
     try {
       const { data, error } = await supabase
@@ -54,6 +42,19 @@ export default function Dashboard() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    const init = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) {
+        navigate('/', { replace: true })
+        return
+      }
+      await fetchCustomers()
+    }
+    init()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate])
 
   const handleSearch = (query) => {
     const q = query.toLowerCase()

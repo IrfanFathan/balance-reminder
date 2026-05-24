@@ -18,6 +18,7 @@ export default function CustomerModal({ isOpen, customer, onClose, onSave }) {
 
   useEffect(() => {
     if (customer) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setForm({
         name: customer.name || '',
         phone: customer.phone || '',

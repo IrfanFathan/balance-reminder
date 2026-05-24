@@ -21,6 +21,35 @@ export default function TransactionView() {
   const [confirmPaidTx, setConfirmPaidTx] = useState(null)
   const [updating, setUpdating] = useState(false)
 
+  const fetchCustomer = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('customers')
+        .select('*')
+        .eq('id', customerId)
+        .single()
+      if (error) throw error
+      setCustomer(data)
+    } catch {
+      toast.error('Failed to load customer profile')
+    }
+  }
+
+  const fetchTransactions = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('transactions')
+        .select('*')
+        .eq('customer_id', customerId)
+      if (error) throw error
+      setTransactions(data || [])
+    } catch {
+      toast.error('Failed to load transactions')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
     const init = async () => {
       const { data: { session } } = await supabase.auth.getSession()
@@ -35,36 +64,8 @@ export default function TransactionView() {
       await Promise.all([fetchCustomer(), fetchTransactions()])
     }
     init()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate, customerId])
-
-  const fetchCustomer = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('customers')
-        .select('*')
-        .eq('id', customerId)
-        .single()
-      if (error) throw error
-      setCustomer(data)
-    } catch (err) {
-      toast.error('Failed to load customer profile')
-    }
-  }
-
-  const fetchTransactions = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('transactions')
-        .select('*')
-        .eq('customer_id', customerId)
-      if (error) throw error
-      setTransactions(data || [])
-    } catch (err) {
-      toast.error('Failed to load transactions')
-    } finally {
-      setLoading(false)
-    }
-  }
 
   const toggleAccordion = (id) => {
     setExpandedTxId(expandedTxId === id ? null : id)

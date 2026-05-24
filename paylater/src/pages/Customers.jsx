@@ -22,18 +22,6 @@ export default function Customers() {
   const [customerToDelete, setCustomerToDelete] = useState(null)
   const [transactionModalOpen, setTransactionModalOpen] = useState(false)
 
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session) {
-        navigate('/', { replace: true })
-        return
-      }
-      fetchCustomers()
-    }
-    checkSession()
-  }, [navigate])
-
   const fetchCustomers = async () => {
     setLoading(true)
     try {
@@ -54,6 +42,19 @@ export default function Customers() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) {
+        navigate('/', { replace: true })
+        return
+      }
+      fetchCustomers()
+    }
+    checkSession()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate])
 
   const filteredCustomers = useMemo(() => {
     if (!searchQuery.trim()) return customers

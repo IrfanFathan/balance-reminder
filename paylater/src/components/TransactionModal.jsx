@@ -14,8 +14,22 @@ export default function TransactionModal({ isOpen, onClose, onSave }) {
     note: '',
   })
 
+  const fetchCustomers = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('customers')
+        .select('id, name, total_amount, paid_amount')
+        .order('name')
+      if (error) throw error
+      setCustomers(data || [])
+    } catch {
+      toast.error('Failed to load customers')
+    }
+  }
+
   useEffect(() => {
     if (isOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       fetchCustomers()
       setForm({
         customer_id: '',
@@ -27,19 +41,6 @@ export default function TransactionModal({ isOpen, onClose, onSave }) {
       setType('credit')
     }
   }, [isOpen])
-
-  const fetchCustomers = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('customers')
-        .select('id, name, total_amount, paid_amount')
-        .order('name')
-      if (error) throw error
-      setCustomers(data || [])
-    } catch (err) {
-      toast.error('Failed to load customers')
-    }
-  }
 
   if (!isOpen) return null
 
