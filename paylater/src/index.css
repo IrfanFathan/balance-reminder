@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #EAEAEA;
+    --surface: #FFFFFF;
+    --fg: #1C1C1E;
+    --muted: #8E8E93;
+    --border: #D1D1D6;
+    --accent: #EF4434;
+    --success: #10B981;
+    --whatsapp: #25D366;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  input, select, textarea, button {
+    font-family: inherit;
+    border-radius: 0;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    outline: 1px solid var(--fg);
+    border-color: var(--fg);
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
+}
+
+@layer components {
+  .container {
+    max-width: 430px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-size: 16px;
+  }
+
+  .btn-primary {
+    width: 100%;
+    background: var(--fg);
+    color: var(--surface);
+    border: 0;
+    padding: 18px;
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .btn-primary:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+
+  .btn-accent {
+    width: 100%;
+    background: var(--accent);
+    color: var(--surface);
+    border: 0;
+    padding: 18px;
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .card {
+    background: var(--surface);
+    padding: 20px;
+    border: 1px solid transparent;
+  }
+
+  .card:active {
+    border-color: var(--fg);
+  }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 32px);
+    max-width: 398px;
+    background: var(--fg);
+    display: flex;
+    justify-content: space-around;
+    padding: 16px;
+    z-index: 100;
+  }
+
+  .nav-item {
+    color: #8E8E93;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nav-item.active {
+    color: var(--surface);
+  }
+
+  .nav-icon {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+  }
+}

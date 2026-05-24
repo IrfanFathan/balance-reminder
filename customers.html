@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PayLater · Customers</title>
+  <style>
+    :root {
+      --bg:      #EAEAEA;
+      --surface: #FFFFFF;
+      --fg:      #1C1C1E;
+      --muted:   #8E8E93;
+      --border:  #D1D1D6;
+      --accent:  #EF4434;
+
+      --font-display: 'Inter', -apple-system, sans-serif;
+      --font-body:    'Inter', -apple-system, sans-serif;
+      --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+      --gap: 16px;
+      --radius: 0px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      padding-bottom: 120px;
+    }
+
+    .container {
+      max-width: 430px;
+      margin: 0 auto;
+      padding: var(--gap);
+    }
+
+    header {
+      padding-block: 24px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    h1 { font-size: 24px; font-weight: 500; margin: 0; }
+
+    .search-container {
+      margin-block: 8px 24px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font: inherit;
+      font-size: 15px;
+    }
+
+    .search-input:focus { outline: 1px solid var(--fg); border-color: var(--fg); }
+
+    .customer-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .customer-card {
+      background: var(--surface);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid transparent;
+    }
+
+    .customer-card:active { border-color: var(--fg); }
+
+    .customer-info h3 { font-size: 16px; font-weight: 500; margin: 0 0 4px; }
+    .customer-info p { font-size: 12px; color: var(--muted); margin: 0; font-family: var(--font-mono); }
+
+    .customer-balance {
+      text-align: right;
+    }
+
+    .balance-label { font-size: 10px; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
+    .balance-val { font-family: var(--font-mono); font-size: 14px; font-weight: 500; }
+    .balance-val.overdue { color: var(--accent); }
+
+    .fab {
+      position: fixed;
+      bottom: 100px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      background: var(--accent);
+      color: var(--surface);
+      border: 0;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(239, 68, 52, 0.3);
+      z-index: 90;
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 398px;
+      background: var(--fg);
+      display: flex;
+      justify-content: space-around;
+      padding: 16px;
+      z-index: 100;
+    }
+
+    .nav-item {
+      color: #8E8E93;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-icon {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Customers</h1>
+    </header>
+
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search by name or number...">
+    </div>
+
+    <div class="customer-list">
+      <a href="ledger.html" class="customer-card">
+        <div class="customer-info">
+          <h3>Muhammad Shamil</h3>
+          <p>+91 98765 43210</p>
+        </div>
+        <div class="customer-balance">
+          <p class="balance-label">Pending</p>
+          <p class="balance-val overdue">$ 3,420.00</p>
+        </div>
+      </a>
+      <a href="#" class="customer-card">
+        <div class="customer-info">
+          <h3>Akhil K.</h3>
+          <p>+91 98123 45678</p>
+        </div>
+        <div class="customer-balance">
+          <p class="balance-label">Pending</p>
+          <p class="balance-val overdue">$ 2,450.00</p>
+        </div>
+      </a>
+      <a href="#" class="customer-card">
+        <div class="customer-info">
+          <h3>Rahul Das</h3>
+          <p>+91 97456 12389</p>
+        </div>
+        <div class="customer-balance">
+          <p class="balance-label">Pending</p>
+          <p class="balance-val overdue">$ 1,820.00</p>
+        </div>
+      </a>
+      <a href="#" class="customer-card">
+        <div class="customer-info">
+          <h3>Anas P.</h3>
+          <p>+91 90123 78945</p>
+        </div>
+        <div class="customer-balance">
+          <p class="balance-label">Pending</p>
+          <p class="balance-val">$ 0.00</p>
+        </div>
+      </a>
+      <a href="#" class="customer-card">
+        <div class="customer-info">
+          <h3>Sreerag M.</h3>
+          <p>+91 95678 12340</p>
+        </div>
+        <div class="customer-balance">
+          <p class="balance-label">Pending</p>
+          <p class="balance-val overdue">$ 540.00</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <button class="fab" onclick="location.href='add-customer.html'">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+  </button>
+
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+    </a>
+    <a href="analytics.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 4 4 5-5"/></svg>
+    </a>
+    <a href="settings.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+    </a>
+  </nav>
+</body>
+</html>

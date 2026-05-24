@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PayLater · Analytics</title>
+  <style>
+    :root {
+      --bg:      #EAEAEA;
+      --surface: #FFFFFF;
+      --fg:      #1C1C1E;
+      --muted:   #8E8E93;
+      --border:  #D1D1D6;
+      --accent:  #EF4434;
+
+      --font-display: 'Inter', -apple-system, sans-serif;
+      --font-body:    'Inter', -apple-system, sans-serif;
+      --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+      --gap: 16px;
+      --radius: 0px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      padding-bottom: 100px;
+    }
+
+    .container {
+      max-width: 430px;
+      margin: 0 auto;
+      padding: var(--gap);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-block: 24px 16px;
+    }
+
+    h1 { font-size: 24px; font-weight: 500; margin: 0; letter-spacing: -0.02em; }
+
+    .period-switcher {
+      display: flex;
+      background: var(--border);
+      padding: 4px;
+      border-radius: 99px;
+      margin-block: 16px 32px;
+    }
+
+    .period-btn {
+      flex: 1;
+      padding: 8px 12px;
+      border: 0;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--muted);
+    }
+
+    .period-btn.active {
+      background: var(--fg);
+      color: var(--surface);
+    }
+
+    .stat-block {
+      margin-bottom: 32px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 500;
+      font-family: var(--font-mono);
+      letter-spacing: -0.02em;
+    }
+
+    .chart-container {
+      background: var(--surface);
+      padding: 24px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .chart-legend {
+      display: flex;
+      gap: 16px;
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .dot { width: 8px; height: 8px; border-radius: 2px; }
+    .dot.midnight { background: var(--fg); }
+    .dot.coral { background: var(--accent); }
+
+    .chart-bars {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      height: 180px;
+      gap: 8px;
+    }
+
+    .bar-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      height: 100%;
+      justify-content: flex-end;
+    }
+
+    .bar {
+      width: 100%;
+      transition: height 0.6s cubic-bezier(0.2, 0, 0, 1);
+      position: relative;
+    }
+
+    .bar.midnight { background: var(--fg); }
+    .bar.coral { background: var(--accent); }
+
+    .bar:hover::after {
+      content: attr(data-value);
+      position: absolute;
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--fg);
+      color: var(--surface);
+      padding: 2px 6px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      white-space: nowrap;
+    }
+
+    .bar-label {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 8px;
+      font-family: var(--font-mono);
+    }
+
+    .leaderboard-section {
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .leader-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .leader-item {
+      background: var(--surface);
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .leader-info h3 {
+      font-size: 15px;
+      font-weight: 500;
+      margin: 0 0 4px;
+    }
+
+    .leader-info p {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .leader-value {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .amount {
+      font-weight: 500;
+      font-family: var(--font-mono);
+      font-size: 14px;
+    }
+
+    .send-btn {
+      width: 32px;
+      height: 32px;
+      background: var(--fg);
+      color: var(--surface);
+      border: 0;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 398px;
+      background: var(--fg);
+      display: flex;
+      justify-content: space-around;
+      padding: 16px;
+      z-index: 100;
+    }
+
+    .nav-item {
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-item.active {
+      color: var(--surface);
+    }
+
+    .nav-icon {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" data-od-id="analytics-container">
+    <header data-od-id="header">
+      <a href="index.html" style="color: inherit; text-decoration: none;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      </a>
+      <h1>Analytics</h1>
+      <div style="width: 24px;"></div>
+    </header>
+
+    <div class="period-switcher" data-od-id="period-switcher">
+      <button class="period-btn active" onclick="setPeriod('weekly')">Weekly</button>
+      <button class="period-btn" onclick="setPeriod('monthly')">Monthly</button>
+      <button class="period-btn" onclick="setPeriod('yearly')">Yearly</button>
+    </div>
+
+    <div class="stat-block" data-od-id="total-volume-block">
+      <p class="stat-label">Total Credit Volume</p>
+      <div class="stat-value" id="total-volume">$ 42,120.00</div>
+    </div>
+
+    <div class="chart-container" data-od-id="chart-visualizer">
+      <div class="chart-header">
+        <div class="chart-legend">
+          <div class="legend-item"><span class="dot midnight"></span> Collection</div>
+          <div class="legend-item"><span class="dot coral"></span> Issued</div>
+        </div>
+      </div>
+      <div class="chart-bars" id="chart-bars">
+        <!-- Bars injected by JS -->
+      </div>
+    </div>
+
+    <section class="leaderboard-section" data-od-id="pending-leaderboard">
+      <div class="section-title">
+        Top Pending Accounts
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      </div>
+      <div class="leader-list">
+        <div class="leader-item">
+          <div class="leader-info">
+            <h3>Akhil K.</h3>
+            <p>Last active 2 days ago</p>
+          </div>
+          <div class="leader-value">
+            <span class="amount">$2,450.00</span>
+            <button class="send-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="leader-item">
+          <div class="leader-info">
+            <h3>Rahul Das</h3>
+            <p>Last active 5 days ago</p>
+          </div>
+          <div class="leader-value">
+            <span class="amount">$1,820.00</span>
+            <button class="send-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="leader-item">
+          <div class="leader-info">
+            <h3>Muhammad Shamil</h3>
+            <p>Last active Today</p>
+          </div>
+          <div class="leader-value">
+            <span class="amount">$3,420.00</span>
+            <button class="send-btn" onclick="location.href='ledger.html'">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="bottom-nav" data-od-id="bottom-nav">
+    <a href="dashboard.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+    </a>
+    <a href="analytics.html" class="nav-item active">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 4 4 5-5"/></svg>
+    </a>
+    <a href="settings.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+    </a>
+  </nav>
+
+  <script>
+    const DATA = {
+      weekly: {
+        volume: "$ 42,120.00",
+        bars: [
+          { label: 'MON', collection: 40, issued: 70 },
+          { label: 'TUE', collection: 60, issued: 45 },
+          { label: 'WED', collection: 30, issued: 85 },
+          { label: 'THU', collection: 80, issued: 30 },
+          { label: 'FRI', collection: 50, issued: 60 },
+          { label: 'SAT', collection: 90, issued: 20 },
+          { label: 'SUN', collection: 45, issued: 40 }
+        ]
+      },
+      monthly: {
+        volume: "$ 184,500.00",
+        bars: [
+          { label: 'WK1', collection: 50, issued: 60 },
+          { label: 'WK2', collection: 70, issued: 40 },
+          { label: 'WK3', collection: 40, issued: 90 },
+          { label: 'WK4', collection: 90, issued: 30 }
+        ]
+      },
+      yearly: {
+        volume: "$ 2,142,000.00",
+        bars: [
+          { label: 'Q1', collection: 60, issued: 70 },
+          { label: 'Q2', collection: 80, issued: 50 },
+          { label: 'Q3', collection: 50, issued: 80 },
+          { label: 'Q4', collection: 90, issued: 40 }
+        ]
+      }
+    };
+
+    function setPeriod(period) {
+      document.querySelectorAll('.period-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText.toLowerCase() === period);
+      });
+
+      document.getElementById('total-volume').innerText = DATA[period].volume;
+
+      const container = document.getElementById('chart-bars');
+      container.innerHTML = '';
+      
+      DATA[period].bars.forEach(item => {
+        const group = document.createElement('div');
+        group.className = 'bar-group';
+        
+        const issuedBar = document.createElement('div');
+        issuedBar.className = 'bar coral';
+        issuedBar.style.height = '0%';
+        issuedBar.dataset.value = '$' + (item.issued * 100);
+        
+        const collectionBar = document.createElement('div');
+        collectionBar.className = 'bar midnight';
+        collectionBar.style.height = '0%';
+        collectionBar.dataset.value = '$' + (item.collection * 100);
+
+        group.appendChild(issuedBar);
+        group.appendChild(collectionBar);
+        
+        const label = document.createElement('span');
+        label.className = 'bar-label';
+        label.innerText = item.label;
+        group.appendChild(label);
+        
+        container.appendChild(group);
+
+        setTimeout(() => {
+          issuedBar.style.height = item.issued + '%';
+          collectionBar.style.height = item.collection + '%';
+        }, 50);
+      });
+    }
+
+    setPeriod('weekly');
+  </script>
+</body>
+</html>

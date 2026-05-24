@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PayLater · Add Customer</title>
+  <style>
+    :root {
+      --bg:      #EAEAEA;
+      --surface: #FFFFFF;
+      --fg:      #1C1C1E;
+      --muted:   #8E8E93;
+      --border:  #D1D1D6;
+      --accent:  #EF4434;
+
+      --font-display: 'Inter', -apple-system, sans-serif;
+      --font-body:    'Inter', -apple-system, sans-serif;
+      --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+      --gap: 16px;
+      --radius: 0px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+    }
+
+    .container {
+      max-width: 430px;
+      margin: 0 auto;
+      padding: var(--gap);
+    }
+
+    header {
+      padding-block: 24px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    h1 { font-size: 20px; font-weight: 500; margin: 0; }
+
+    form {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+
+    .input {
+      width: 100%;
+      padding: 16px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font: inherit;
+      font-size: 16px;
+    }
+
+    .input:focus { outline: 1px solid var(--fg); border-color: var(--fg); }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--fg);
+      color: var(--surface);
+      border: 0;
+      padding: 20px;
+      font-weight: 600;
+      font-size: 16px;
+      margin-top: 24px;
+      cursor: pointer;
+    }
+
+    .submit-btn:active { opacity: 0.9; transform: scale(0.98); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <button class="back-btn" onclick="history.back()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      </button>
+      <h1>New Customer</h1>
+      <div style="width: 40px;"></div>
+    </header>
+
+    <form onsubmit="event.preventDefault(); location.href='customers.html'">
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" class="input" placeholder="e.g. Muhammad Shamil" required>
+      </div>
+      <div class="field">
+        <label>Phone Number</label>
+        <input type="tel" class="input" placeholder="+91 00000 00000" required>
+      </div>
+      <div class="field">
+        <label>Initial Credit Balance ($)</label>
+        <input type="number" class="input" placeholder="0.00">
+      </div>
+      <div class="field">
+        <label>Shop Location Segment</label>
+        <input type="text" class="input" value="Nilambur" readonly>
+      </div>
+
+      <button type="submit" class="submit-btn">Add to Ledger</button>
+    </form>
+  </div>
+</body>
+</html>

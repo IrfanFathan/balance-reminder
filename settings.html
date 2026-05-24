@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PayLater · Settings</title>
+  <style>
+    :root {
+      --bg:      #EAEAEA;
+      --surface: #FFFFFF;
+      --fg:      #1C1C1E;
+      --muted:   #8E8E93;
+      --border:  #D1D1D6;
+      --accent:  #EF4434;
+      --success: #10B981;
+      --focus:   #F2F2F7;
+
+      --font-display: 'Inter', -apple-system, sans-serif;
+      --font-body:    'Inter', -apple-system, sans-serif;
+      --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+      --gap: 16px;
+      --radius: 0px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      padding-bottom: 120px;
+    }
+
+    .container {
+      max-width: 430px;
+      margin: 0 auto;
+      padding: var(--gap);
+    }
+
+    header { padding-block: 24px 16px; }
+    h1 { font-size: 24px; font-weight: 500; margin: 0; letter-spacing: -0.02em; }
+
+    section { margin-top: 32px; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .card {
+      background: var(--surface);
+      padding: 16px;
+      margin-bottom: 8px;
+      border: 1px solid transparent;
+    }
+
+    .card.interactive {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .card.interactive:active { background: var(--focus); }
+
+    .field-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+    .field-value { font-size: 15px; font-weight: 400; }
+
+    .toggle-group {
+      display: flex;
+      background: var(--border);
+      padding: 4px;
+      border-radius: 99px;
+      margin-top: 8px;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 10px;
+      border: 0;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--muted);
+    }
+
+    .toggle-btn.active {
+      background: var(--surface);
+      color: var(--fg);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .status-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .status-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: currentColor;
+      border-radius: 50%;
+    }
+
+    .sign-out-btn {
+      width: 100%;
+      background: var(--fg);
+      color: var(--surface);
+      border: 0;
+      padding: 18px;
+      font-weight: 500;
+      font-size: 15px;
+      margin-top: 48px;
+      cursor: pointer;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 398px;
+      background: var(--fg);
+      display: flex;
+      justify-content: space-around;
+      padding: 16px;
+      z-index: 100;
+    }
+
+    .nav-item {
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-item.active { color: var(--surface); }
+
+    .nav-icon {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" data-od-id="settings-container">
+    <header data-od-id="header">
+      <h1>Shop Settings</h1>
+    </header>
+
+    <section data-od-id="profile-section">
+      <p class="section-label">Shop Profile</p>
+      <div class="card">
+        <p class="field-label">Shop Name</p>
+        <p class="field-value">Royal Fancy & Groceries</p>
+      </div>
+      <div class="card">
+        <p class="field-label">Location</p>
+        <p class="field-value">Nilambur, Malappuram</p>
+      </div>
+    </section>
+
+    <section data-od-id="language-section">
+      <p class="section-label">Default Reminder Language</p>
+      <div class="toggle-group">
+        <button class="toggle-btn active" onclick="setLang(this)">English</button>
+        <button class="toggle-btn" onclick="setLang(this)">Malayalam</button>
+      </div>
+    </section>
+
+    <section data-od-id="preferences-section">
+      <p class="section-label">Preferences</p>
+      <div class="card interactive">
+        <span class="field-value">Export Ledger to PDF</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+      </div>
+      <div class="card interactive">
+        <span class="field-value">Secure Backup (Supabase)</span>
+        <span class="status-badge">Connected</span>
+      </div>
+      <div class="card interactive">
+        <span class="field-value">App Theme</span>
+        <span style="font-size: 13px; color: var(--muted);">Light</span>
+      </div>
+    </section>
+
+    <button class="sign-out-btn" onclick="location.href='index.html'">Sign Out</button>
+  </div>
+
+  <nav class="bottom-nav" data-od-id="bottom-nav">
+    <a href="dashboard.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+    </a>
+    <a href="analytics.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 4 4 5-5"/></svg>
+    </a>
+    <a href="settings.html" class="nav-item active">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+    </a>
+  </nav>
+
+  <script>
+    function setLang(btn) {
+      document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  </script>
+</body>
+</html>

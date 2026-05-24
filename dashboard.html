@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PayLater · Dashboard</title>
+  <style>
+    :root {
+      --bg:      #EAEAEA;
+      --surface: #FFFFFF;
+      --fg:      #1C1C1E;
+      --muted:   #8E8E93;
+      --border:  #D1D1D6;
+      --accent:  #EF4434;
+
+      --font-display: 'Inter', -apple-system, sans-serif;
+      --font-body:    'Inter', -apple-system, sans-serif;
+      --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+      --gap: 16px;
+      --radius: 0px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      padding-bottom: 120px;
+    }
+
+    .container {
+      max-width: 430px;
+      margin: 0 auto;
+      padding: var(--gap);
+    }
+
+    header {
+      padding-block: 24px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .shop-info h1 { font-size: 20px; font-weight: 500; margin: 0; }
+    .shop-info p { font-size: 12px; color: var(--muted); margin: 4px 0 0; }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      background: var(--fg);
+      color: var(--surface);
+      display: grid;
+      place-items: center;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .hero-balance {
+      background: var(--fg);
+      color: var(--surface);
+      padding: 32px 24px;
+      margin-block: 16px 24px;
+      text-align: center;
+    }
+
+    .hero-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.6;
+      margin-bottom: 12px;
+    }
+
+    .hero-amount {
+      font-size: 36px;
+      font-weight: 500;
+      font-family: var(--font-mono);
+      letter-spacing: -0.02em;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .action-card {
+      background: var(--surface);
+      padding: 20px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid transparent;
+    }
+
+    .action-card:active { border-color: var(--fg); }
+
+    .action-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--bg);
+      display: grid;
+      place-items: center;
+    }
+
+    .action-card h3 { font-size: 14px; font-weight: 500; margin: 0; }
+
+    .activity-section h2 {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .activity-item {
+      background: var(--surface);
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .activity-info h4 { font-size: 14px; font-weight: 500; margin: 0 0 4px; }
+    .activity-info p { font-size: 12px; color: var(--muted); margin: 0; }
+
+    .activity-amount {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .activity-amount.negative { color: var(--accent); }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 398px;
+      background: var(--fg);
+      display: flex;
+      justify-content: space-around;
+      padding: 16px;
+      z-index: 100;
+    }
+
+    .nav-item {
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-item.active {
+      color: var(--surface);
+    }
+
+    .nav-icon {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" data-od-id="dashboard-container">
+    <header data-od-id="header">
+      <div class="shop-info">
+        <h1>Royal Fancy</h1>
+        <p>Nilambur, Malappuram</p>
+      </div>
+      <div class="user-avatar">RF</div>
+    </header>
+
+    <div class="hero-balance" data-od-id="hero-balance">
+      <p class="hero-label">Total Outstanding Credit</p>
+      <div class="hero-amount">$ 1,24,520.00</div>
+    </div>
+
+    <div class="action-grid" data-od-id="action-grid">
+      <a href="add-customer.html" class="action-card">
+        <div class="action-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+        </div>
+        <h3>Add Customer</h3>
+      </a>
+      <a href="add-transaction.html" class="action-card">
+        <div class="action-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        </div>
+        <h3>New Entry</h3>
+      </a>
+      <a href="customers.html" class="action-card">
+        <div class="action-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>View All</h3>
+      </a>
+      <a href="analytics.html" class="action-card">
+        <div class="action-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m7 15 4-4 4 4 5-5"/></svg>
+        </div>
+        <h3>Insights</h3>
+      </a>
+    </div>
+
+    <section class="activity-section" data-od-id="recent-activity">
+      <h2>Recent Activity</h2>
+      <div class="activity-list">
+        <a href="ledger.html" class="activity-item">
+          <div class="activity-info">
+            <h4>Muhammad Shamil</h4>
+            <p>Today, 10:45 AM · Credit</p>
+          </div>
+          <span class="activity-amount negative">+ $450.00</span>
+        </a>
+        <a href="#" class="activity-item">
+          <div class="activity-info">
+            <h4>Akhil K.</h4>
+            <p>Yesterday, 4:20 PM · Payment</p>
+          </div>
+          <span class="activity-amount">- $1,200.00</span>
+        </a>
+        <a href="#" class="activity-item">
+          <div class="activity-info">
+            <h4>Rahul Das</h4>
+            <p>23 May, 11:15 AM · Credit</p>
+          </div>
+          <span class="activity-amount negative">+ $820.00</span>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <nav class="bottom-nav" data-od-id="bottom-nav">
+    <a href="dashboard.html" class="nav-item active">
+      <svg class="nav-icon" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+    </a>
+    <a href="analytics.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 4 4 5-5"/></svg>
+    </a>
+    <a href="settings.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+    </a>
+  </nav>
+</body>
+</html>

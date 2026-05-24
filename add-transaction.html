@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PayLater · New Entry</title>
+  <style>
+    :root {
+      --bg:      #EAEAEA;
+      --surface: #FFFFFF;
+      --fg:      #1C1C1E;
+      --muted:   #8E8E93;
+      --border:  #D1D1D6;
+      --accent:  #EF4434;
+
+      --font-display: 'Inter', -apple-system, sans-serif;
+      --font-body:    'Inter', -apple-system, sans-serif;
+      --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+      --gap: 16px;
+      --radius: 0px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+    }
+
+    .container {
+      max-width: 430px;
+      margin: 0 auto;
+      padding: var(--gap);
+    }
+
+    header {
+      padding-block: 24px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    h1 { font-size: 20px; font-weight: 500; margin: 0; }
+
+    /* Mode Switcher */
+    .mode-switcher {
+      display: flex;
+      background: #D1D1D6;
+      padding: 4px;
+      margin-top: 24px;
+    }
+
+    .mode-btn {
+      flex: 1;
+      padding: 12px;
+      border: 0;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .mode-btn.active {
+      background: var(--fg);
+      color: var(--surface);
+    }
+
+    .mode-btn.active.credit { background: var(--accent); }
+
+    form {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+
+    .input-large {
+      width: 100%;
+      padding: 24px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font: inherit;
+      font-size: 32px;
+      font-family: var(--font-mono);
+      text-align: center;
+    }
+
+    .input {
+      width: 100%;
+      padding: 16px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font: inherit;
+      font-size: 16px;
+    }
+
+    .input:focus { outline: 1px solid var(--fg); border-color: var(--fg); }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--fg);
+      color: var(--surface);
+      border: 0;
+      padding: 20px;
+      font-weight: 600;
+      font-size: 16px;
+      margin-top: 24px;
+      cursor: pointer;
+    }
+
+    .submit-btn.credit { background: var(--accent); }
+
+    .submit-btn:active { opacity: 0.9; transform: scale(0.98); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <button class="back-btn" onclick="history.back()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      </button>
+      <h1>New Entry</h1>
+      <div style="width: 40px;"></div>
+    </header>
+
+    <div class="mode-switcher">
+      <button id="btn-credit" class="mode-btn active credit" onclick="setMode('credit')">Give Credit</button>
+      <button id="btn-payment" class="mode-btn" onclick="setMode('payment')">Got Payment</button>
+    </div>
+
+    <form onsubmit="event.preventDefault(); location.href='dashboard.html'">
+      <div class="field">
+        <label>Amount ($)</label>
+        <input type="number" class="input-large" placeholder="0.00" required autofocus>
+      </div>
+
+      <div class="field">
+        <label>Select Customer</label>
+        <select class="input">
+          <option>Muhammad Shamil</option>
+          <option>Akhil K.</option>
+          <option>Rahul Das</option>
+          <option>Anas P.</option>
+          <option>Sreerag M.</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Description (Optional)</label>
+        <input type="text" class="input" placeholder="e.g. Milk, Rice, Monthly bill">
+      </div>
+
+      <div class="field">
+        <label>Date</label>
+        <input type="date" class="input" value="2026-05-24">
+      </div>
+
+      <button type="submit" id="submit-btn" class="submit-btn credit">Save Credit Entry</button>
+    </form>
+  </div>
+
+  <script>
+    function setMode(mode) {
+      const creditBtn = document.getElementById('btn-credit');
+      const paymentBtn = document.getElementById('btn-payment');
+      const submitBtn = document.getElementById('submit-btn');
+
+      if (mode === 'credit') {
+        creditBtn.classList.add('active', 'credit');
+        paymentBtn.classList.remove('active');
+        submitBtn.classList.add('credit');
+        submitBtn.innerText = 'Save Credit Entry';
+      } else {
+        paymentBtn.classList.add('active');
+        creditBtn.classList.remove('active', 'credit');
+        submitBtn.classList.remove('credit');
+        submitBtn.innerText = 'Save Payment Entry';
+      }
+    }
+  </script>
+</body>
+</html>

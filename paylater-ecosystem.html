@@ -1,0 +1,187 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PayLater · Ecosystem Launcher</title>
+  <style>
+    :root {
+      --bg:      #EAEAEA;   /* Soft off-white canvas */
+      --surface: #FFFFFF;   /* Pure white cards */
+      --fg:      #1C1C1E;   /* Midnight black */
+      --muted:   #8E8E93;   /* Muted grey */
+      --border:  #D1D1D6;   /* Subtle borders */
+      --accent:  #EF4434;   /* Coral red */
+
+      --font-display: 'Inter', -apple-system, sans-serif;
+      --font-body:    'Inter', -apple-system, sans-serif;
+      --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+      --fs-h1: 32px;
+      --fs-h2: 24px;
+      --fs-h3: 18px;
+      --fs-body: 16px;
+      --fs-meta: 13px;
+
+      --gap: 16px;
+      --radius: 0px; /* Strict flat architecture per brief */
+      --container: 800px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: var(--container);
+      margin-inline: auto;
+      padding: 40px var(--gap);
+    }
+
+    header {
+      margin-bottom: 48px;
+      border-bottom: 2px solid var(--fg);
+      padding-bottom: 24px;
+    }
+
+    h1 { font-size: var(--fs-h1); font-weight: 500; margin: 0; letter-spacing: -0.02em; }
+    .subtitle { color: var(--muted); margin-top: 8px; font-size: 18px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .screen-card {
+      background: var(--surface);
+      border: 1px solid var(--fg);
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.1s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 200px;
+    }
+
+    .screen-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 0 var(--fg);
+    }
+
+    .screen-card h2 {
+      font-size: var(--fs-h2);
+      font-weight: 500;
+      margin: 0 0 12px;
+    }
+
+    .screen-card p {
+      color: var(--muted);
+      font-size: var(--fs-body);
+      margin: 0;
+    }
+
+    .screen-card .meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 24px;
+      color: var(--accent);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      background: var(--fg);
+      color: var(--surface);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>PayLater Ecosystem</h1>
+      <p class="subtitle">Modern Minimalist Fintech Architecture</p>
+    </header>
+
+    <div class="grid">
+      <a href="dashboard.html" class="screen-card">
+        <div>
+          <span class="badge">Screen 1</span>
+          <h2>Main Dashboard</h2>
+          <p>The central hub for credit volume, recent activity, and quick navigation.</p>
+        </div>
+        <span class="meta">dashboard.html</span>
+      </a>
+
+      <a href="analytics.html" class="screen-card">
+        <div>
+          <span class="badge">Screen 5</span>
+          <h2>Analytics & Insights</h2>
+          <p>Credit collection bar charts, volume stats, and pending accounts.</p>
+        </div>
+        <span class="meta">analytics.html</span>
+      </a>
+
+      <a href="ledger.html" class="screen-card">
+        <div>
+          <span class="badge">Screen 6</span>
+          <h2>Customer Ledger</h2>
+          <p>Deep-dive view for specific customers with transaction timeline.</p>
+        </div>
+        <span class="meta">ledger.html</span>
+      </a>
+
+      <a href="settings.html" class="screen-card">
+        <div>
+          <span class="badge">Screen 7</span>
+          <h2>Shop Settings</h2>
+          <p>Profile configuration, language preferences, and cloud sync status.</p>
+        </div>
+        <span class="meta">settings.html</span>
+      </a>
+
+      <a href="customers.html" class="screen-card">
+        <div>
+          <span class="badge">Management</span>
+          <h2>Customer Directory</h2>
+          <p>Complete list of clients and their current outstanding balances.</p>
+        </div>
+        <span class="meta">customers.html</span>
+      </a>
+
+      <a href="add-customer.html" class="screen-card">
+        <div>
+          <span class="badge">Action</span>
+          <h2>Onboard Customer</h2>
+          <p>Form-based workflow to add new clients to the PayLater system.</p>
+        </div>
+        <span class="meta">add-customer.html</span>
+      </a>
+
+      <a href="add-transaction.html" class="screen-card">
+        <div>
+          <span class="badge">Action</span>
+          <h2>Record Transaction</h2>
+          <p>Log a credit purchase or a cash/UPI payment instantly.</p>
+        </div>
+        <span class="meta">add-transaction.html</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
