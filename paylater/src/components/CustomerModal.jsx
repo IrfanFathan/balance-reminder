@@ -18,10 +18,12 @@ export default function CustomerModal({ isOpen, customer, onClose, onSave }) {
 
   useEffect(() => {
     if (customer) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+      const cleanPhone = customer.phone?.startsWith('+91')
+        ? customer.phone.substring(3)
+        : customer.phone || ''
       setForm({
         name: customer.name || '',
-        phone: customer.phone || '',
+        phone: cleanPhone,
         total_amount: customer.total_amount || '',
         paid_amount: customer.paid_amount || '',
         purchase_details: customer.purchase_details || '',
@@ -57,6 +59,11 @@ export default function CustomerModal({ isOpen, customer, onClose, onSave }) {
       toast.error('Name and phone are required')
       return
     }
+    const phoneRegex = /^[6-9]\d{9}$/
+    if (!phoneRegex.test(form.phone)) {
+      toast.error("Please enter a valid 10-digit mobile number")
+      return
+    }
     const totalAmount = Number(form.total_amount) || 0
     const paidAmount = Number(form.paid_amount) || 0
     if (totalAmount < 0 || paidAmount < 0) {
@@ -68,7 +75,7 @@ export default function CustomerModal({ isOpen, customer, onClose, onSave }) {
     try {
       const data = {
         name: form.name.trim(),
-        phone: form.phone.trim(),
+        phone: `+91${form.phone}`,
         total_amount: totalAmount,
         paid_amount: paidAmount,
         purchase_details: form.purchase_details.trim(),
@@ -132,7 +139,7 @@ export default function CustomerModal({ isOpen, customer, onClose, onSave }) {
         <form onSubmit={handleSubmit} className="px-4 pb-6 flex flex-col gap-4">
           {/* Name */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[12px] font-medium uppercase tracking-wider text-muted">Customer name</label>
+            <label className="text-[12px] font-medium uppercase tracking-wider text-muted">Customer name <span style={{ color: '#E53935' }}>*</span></label>
             <input
               type="text"
               className="input-field"
@@ -145,15 +152,25 @@ export default function CustomerModal({ isOpen, customer, onClose, onSave }) {
 
           {/* Phone */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[12px] font-medium uppercase tracking-wider text-muted">Phone number</label>
-            <input
-              type="tel"
-              className="input-field"
-              placeholder="e.g. 919876543210"
-              value={form.phone}
-              onChange={(e) => handleChange('phone', e.target.value)}
-              required
-            />
+            <label className="text-[12px] font-medium uppercase tracking-wider text-muted">Phone number <span style={{ color: '#E53935' }}>*</span></label>
+            <div className="flex border border-border overflow-hidden bg-white" style={{ borderRadius: '0px' }}>
+              <span className="bg-gray-100 px-3 flex items-center justify-center text-[14px] text-muted border-r border-border font-semibold select-none">
+                +91
+              </span>
+              <input
+                type="tel"
+                inputMode="numeric"
+                className="flex-1 px-3 py-2.5 text-[14px] bg-white focus:outline-none"
+                style={{ border: '0px', height: '44px' }}
+                value={form.phone}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/g, '').substring(0, 10)
+                  handleChange('phone', val)
+                }}
+                placeholder="Enter 10-digit mobile number"
+                required
+              />
+            </div>
           </div>
 
           {/* Amounts - side by side */}

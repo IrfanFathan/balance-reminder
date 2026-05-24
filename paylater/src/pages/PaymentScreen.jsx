@@ -130,13 +130,13 @@ export default function PaymentScreen() {
         .eq('id', customerId)
       if (customerErr) throw customerErr
 
-      // 3. Log Paid transaction in transactions table
       const { error: txErr } = await supabase
         .from('transactions')
         .insert({
           customer_id: customerId,
           amount: toPay,
           status: 'Paid',
+          type: 'receipt',
           method: 'QR',
           note: 'QR Payment Received'
         })

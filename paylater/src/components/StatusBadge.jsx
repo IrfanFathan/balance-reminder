@@ -5,8 +5,8 @@ export default function StatusBadge({ remainingBalance }) {
     <span
       className="inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5"
       style={{
-        background: isPending ? '#1C1C1E' : '#10B981',
-        color: '#FFFFFF',
+        background: isPending ? '#FFF0F0' : '#F0FFF4',
+        color: isPending ? '#E53935' : '#22C55E',
       }}
     >
       {isPending ? 'PENDING' : 'PAID'}

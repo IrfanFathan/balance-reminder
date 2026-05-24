@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import StatusBadge from './StatusBadge'
 import WhatsAppButton from './WhatsAppButton'
+import { formatPhoneNumber } from '../lib/messages'
 
 export default function CustomerCard({ customer, onEdit, onDelete }) {
   const navigate = useNavigate()
@@ -14,17 +15,23 @@ export default function CustomerCard({ customer, onEdit, onDelete }) {
     >
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
-          <h3 className="text-[16px] font-medium truncate">{customer.name}</h3>
+          <h3
+            className="text-[16px] font-medium truncate"
+            style={{ maxWidth: '60%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+            title={customer.name}
+          >
+            {customer.name}
+          </h3>
           <StatusBadge remainingBalance={balance} />
         </div>
-        <p className="text-[12px] text-muted font-mono">{customer.phone}</p>
+        <p className="text-[12px] text-muted font-mono">{formatPhoneNumber(customer.phone)}</p>
       </div>
       <div className="flex flex-col items-end gap-3 ml-3">
         <div className="text-right">
           <p className="text-[10px] text-muted uppercase tracking-wider mb-0.5">Pending</p>
           <p
             className="font-mono text-[14px] font-medium"
-            style={{ color: isPending ? '#EF4434' : '#1C1C1E' }}
+            style={{ color: isPending ? '#E53935' : '#22C55E' }}
           >
             ₹ {Number(balance).toLocaleString('en-IN')}
           </p>

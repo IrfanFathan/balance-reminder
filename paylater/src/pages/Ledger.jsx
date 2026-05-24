@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { supabase } from '../lib/supabase'
 import BottomNav from '../components/BottomNav'
+import { formatPhoneNumber } from '../lib/messages'
 
 export default function Ledger() {
   const navigate = useNavigate()
@@ -87,8 +88,14 @@ export default function Ledger() {
 
       {/* Profile */}
       <div className="mb-8">
-        <h2 className="text-[20px] font-medium mb-1">{customer.name}</h2>
-        <p className="text-[14px] text-muted font-mono">{customer.phone}</p>
+        <h2
+          className="text-[20px] font-medium mb-1 truncate"
+          style={{ maxWidth: '180px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+          title={customer.name}
+        >
+          {customer.name}
+        </h2>
+        <p className="text-[14px] text-muted font-mono">{formatPhoneNumber(customer.phone)}</p>
       </div>
 
       {/* Balance Card */}
@@ -96,7 +103,7 @@ export default function Ledger() {
         <p className="text-[13px] text-muted uppercase tracking-wider mb-3">Remaining Balance</p>
         <div
           className="text-[40px] font-medium font-mono tracking-tight mb-6"
-          style={{ color: balance > 0 ? '#EF4434' : '#1C1C1E' }}
+          style={{ color: balance > 0 ? '#E53935' : '#22C55E' }}
         >
           ₹ {balance.toLocaleString('en-IN')}
         </div>

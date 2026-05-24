@@ -6,13 +6,13 @@
 
 @layer base {
   :root {
-    --bg: #EAEAEA;
+    --bg: #F8F9FA;
     --surface: #FFFFFF;
     --fg: #1C1C1E;
     --muted: #8E8E93;
     --border: #D1D1D6;
-    --accent: #EF4434;
-    --success: #10B981;
+    --accent: #E53935;
+    --success: #22C55E;
     --whatsapp: #25D366;
   }
 

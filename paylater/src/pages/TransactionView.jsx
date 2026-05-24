@@ -271,14 +271,14 @@ export default function TransactionView() {
             })
             
             // Check status colors
-            let statusBg = '#FFE2E2'
-            let statusText = '#FF3B30'
+            let statusBg = '#FFF0F0'
+            let statusText = '#E53935'
             if (tx.status === 'Paid') {
-              statusBg = '#E2FBE9'
+              statusBg = '#F0FFF4'
               statusText = '#22C55E'
             } else if (tx.status === 'Pending') {
-              statusBg = '#FFF4E2'
-              statusText = '#FF9500'
+              statusBg = '#FFF8E1'
+              statusText = '#F59E0B'
             }
 
             return (
@@ -311,8 +311,8 @@ export default function TransactionView() {
                   <div className="flex items-center gap-3 ml-3 text-right">
                     <div>
                       <p className="text-[10px] text-muted uppercase font-semibold">Amount</p>
-                      <p className="font-mono text-[15px] font-bold text-[#1C1C1E]">
-                        ₹{Number(tx.amount).toLocaleString('en-IN')}
+                      <p className="font-mono text-[15px] font-bold" style={{ color: tx.type === 'credit' ? '#E53935' : '#22C55E' }}>
+                        {tx.type === 'credit' ? '↑ ' : '↓ '}₹{Number(tx.amount).toLocaleString('en-IN')}
                       </p>
                     </div>
                     {/* Method Badge */}
@@ -376,7 +376,7 @@ export default function TransactionView() {
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                           <polyline points="20 6 9 17 4 12" />
                         </svg>
-                        Mark as Paid ✅
+                        Mark as Paid
                       </button>
                     )}
                   </div>
@@ -410,7 +410,7 @@ export default function TransactionView() {
                 className="px-4 py-2.5 text-[13px] font-semibold bg-[#22C55E] text-white cursor-pointer active:scale-95 transition-all"
                 style={{ borderRadius: '0px', border: '0px' }}
               >
-                {updating ? 'Saving...' : '✅ Confirm'}
+                {updating ? 'Saving...' : 'Confirm'}
               </button>
             </div>
           </div>

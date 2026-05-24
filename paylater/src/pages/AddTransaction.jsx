@@ -64,7 +64,6 @@ export default function AddTransaction() {
         .eq('id', form.customer_id)
       if (error) throw error
 
-      // Record transaction history entry
       const { error: txError } = await supabase
         .from('transactions')
         .insert({
@@ -72,6 +71,7 @@ export default function AddTransaction() {
           amount: amount,
           date: new Date(form.date).toISOString(),
           status: mode === 'credit' ? 'Pending' : 'Paid',
+          type: mode === 'credit' ? 'credit' : 'receipt',
           method: 'Manual',
           note: form.description.trim() || null,
         })
