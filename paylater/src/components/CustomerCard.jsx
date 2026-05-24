@@ -1,12 +1,17 @@
+import { useNavigate } from 'react-router-dom'
 import StatusBadge from './StatusBadge'
 import WhatsAppButton from './WhatsAppButton'
 
 export default function CustomerCard({ customer, onEdit, onDelete, onSendReminder }) {
+  const navigate = useNavigate()
   const balance = Number(customer.remaining_balance)
   const isPending = balance > 0
 
   return (
-    <div className="bg-white p-5 flex justify-between items-center border border-transparent active:border-fg">
+    <div
+      onClick={() => navigate(`/ledger?id=${customer.id}`)}
+      className="bg-white p-5 flex justify-between items-center border border-transparent active:border-fg cursor-pointer hover:bg-gray-50 transition-colors"
+    >
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
           <h3 className="text-[16px] font-medium truncate">{customer.name}</h3>
@@ -24,10 +29,13 @@ export default function CustomerCard({ customer, onEdit, onDelete, onSendReminde
             ₹ {Number(balance).toLocaleString('en-IN')}
           </p>
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
           <button
-            onClick={() => onEdit(customer)}
-            className="w-7 h-7 flex items-center justify-center bg-bg"
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(customer);
+            }}
+            className="w-7 h-7 flex items-center justify-center bg-bg cursor-pointer hover:bg-gray-200 transition-colors"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
@@ -35,8 +43,11 @@ export default function CustomerCard({ customer, onEdit, onDelete, onSendReminde
             </svg>
           </button>
           <button
-            onClick={() => onDelete(customer)}
-            className="w-7 h-7 flex items-center justify-center bg-bg"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(customer);
+            }}
+            className="w-7 h-7 flex items-center justify-center bg-bg cursor-pointer hover:bg-gray-200 transition-colors"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M3 6h18" />

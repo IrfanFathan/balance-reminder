@@ -8,6 +8,8 @@ import SkeletonCard from '../components/SkeletonCard'
 import CustomerModal from '../components/CustomerModal'
 import DeleteConfirmDialog from '../components/DeleteConfirmDialog'
 import BottomNav from '../components/BottomNav'
+import FAB from '../components/FAB'
+import TransactionModal from '../components/TransactionModal'
 
 export default function Customers() {
   const navigate = useNavigate()
@@ -18,6 +20,7 @@ export default function Customers() {
   const [selectedCustomer, setSelectedCustomer] = useState(null)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [customerToDelete, setCustomerToDelete] = useState(null)
+  const [transactionModalOpen, setTransactionModalOpen] = useState(false)
 
   useEffect(() => {
     const checkSession = async () => {
@@ -110,16 +113,11 @@ export default function Customers() {
         )}
       </div>
 
-      {/* FAB */}
-      <button
-        onClick={handleAdd}
-        className="fixed right-6 w-14 h-14 bg-accent text-white rounded-full flex items-center justify-center z-[90]"
-        style={{ bottom: 100, boxShadow: '0 4px 12px rgba(239, 68, 52, 0.3)' }}
-      >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-          <path d="M12 5v14M5 12h14" />
-        </svg>
-      </button>
+      {/* FAB Speed Dial */}
+      <FAB
+        onNewCustomer={handleAdd}
+        onNewTransaction={() => setTransactionModalOpen(true)}
+      />
 
       <CustomerModal
         isOpen={modalOpen}
@@ -128,6 +126,12 @@ export default function Customers() {
           setModalOpen(false)
           setSelectedCustomer(null)
         }}
+        onSave={fetchCustomers}
+      />
+
+      <TransactionModal
+        isOpen={transactionModalOpen}
+        onClose={() => setTransactionModalOpen(false)}
         onSave={fetchCustomers}
       />
 

@@ -8,6 +8,8 @@ import CustomerModal from '../components/CustomerModal'
 import DeleteConfirmDialog from '../components/DeleteConfirmDialog'
 import SearchBar from '../components/SearchBar'
 import SkeletonCard from '../components/SkeletonCard'
+import FAB from '../components/FAB'
+import TransactionModal from '../components/TransactionModal'
 
 export default function Dashboard() {
   const navigate = useNavigate()
@@ -18,6 +20,7 @@ export default function Dashboard() {
   const [selectedCustomer, setSelectedCustomer] = useState(null)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [customerToDelete, setCustomerToDelete] = useState(null)
+  const [transactionModalOpen, setTransactionModalOpen] = useState(false)
 
   useEffect(() => {
     const init = async () => {
@@ -182,21 +185,25 @@ export default function Dashboard() {
         </section>
       </div>
 
-      {/* FAB */}
-      <button
-        onClick={() => { setSelectedCustomer(null); setModalOpen(true) }}
-        className="fixed bottom-24 right-6 w-14 h-14 rounded-full bg-accent text-white flex items-center justify-center z-[90]"
-        style={{ boxShadow: '0 4px 12px rgba(239, 68, 52, 0.3)' }}
-      >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-          <path d="M12 5v14M5 12h14" />
-        </svg>
-      </button>
+      {/* FAB Speed Dial */}
+      <FAB
+        onNewCustomer={() => {
+          setSelectedCustomer(null)
+          setModalOpen(true)
+        }}
+        onNewTransaction={() => setTransactionModalOpen(true)}
+      />
 
       <CustomerModal
         isOpen={modalOpen}
         customer={selectedCustomer}
         onClose={() => { setModalOpen(false); setSelectedCustomer(null) }}
+        onSave={fetchCustomers}
+      />
+
+      <TransactionModal
+        isOpen={transactionModalOpen}
+        onClose={() => setTransactionModalOpen(false)}
         onSave={fetchCustomers}
       />
 

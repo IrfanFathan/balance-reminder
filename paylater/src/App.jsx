@@ -8,6 +8,8 @@ import Settings from './pages/Settings'
 import Ledger from './pages/Ledger'
 import AddCustomer from './pages/AddCustomer'
 import AddTransaction from './pages/AddTransaction'
+import PaymentScreen from './pages/PaymentScreen'
+import TransactionView from './pages/TransactionView'
 
 export default function App() {
   return (
@@ -43,6 +45,8 @@ export default function App() {
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/ledger" element={<Ledger />} />
+        <Route path="/payment" element={<PaymentScreen />} />
+        <Route path="/transactions" element={<TransactionView />} />
       </Routes>
     </BrowserRouter>
   )

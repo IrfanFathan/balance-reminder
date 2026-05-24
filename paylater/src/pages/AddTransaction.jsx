@@ -64,6 +64,19 @@ export default function AddTransaction() {
         .eq('id', form.customer_id)
       if (error) throw error
 
+      // Record transaction history entry
+      const { error: txError } = await supabase
+        .from('transactions')
+        .insert({
+          customer_id: form.customer_id,
+          amount: amount,
+          date: new Date(form.date).toISOString(),
+          status: mode === 'credit' ? 'Pending' : 'Paid',
+          method: 'Manual',
+          note: form.description.trim() || null,
+        })
+      if (txError) throw txError
+
       toast.success(mode === 'credit' ? 'Credit entry saved' : 'Payment entry saved')
       navigate('/dashboard')
     } catch (err) {
