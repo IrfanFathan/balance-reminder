@@ -32,6 +32,11 @@ export default function AddCustomer() {
       toast.error('Name and phone are required')
       return
     }
+    const phoneRegex = /^[6-9]\d{9}$/
+    if (!phoneRegex.test(form.phone)) {
+      toast.error("Please enter a valid 10-digit mobile number")
+      return
+    }
     const totalAmount = parseFloat(form.total_amount) || 0
     const paidAmount = parseFloat(form.paid_amount) || 0
     if (totalAmount < 0 || paidAmount < 0) {
@@ -42,7 +47,7 @@ export default function AddCustomer() {
     try {
       const data = {
         name: form.name.trim(),
-        phone: form.phone.trim(),
+        phone: `+91${form.phone}`,
         total_amount: totalAmount,
         paid_amount: paidAmount,
         purchase_details: form.purchase_details.trim(),
@@ -78,7 +83,7 @@ export default function AddCustomer() {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-8">
           <div className="flex flex-col gap-2">
-            <label className="section-label">Full Name</label>
+            <label className="section-label">Full Name <span style={{ color: '#E53935' }}>*</span></label>
             <input
               type="text"
               className="input-field"
@@ -90,15 +95,25 @@ export default function AddCustomer() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="section-label">Phone Number</label>
-            <input
-              type="tel"
-              className="input-field"
-              value={form.phone}
-              onChange={(e) => updateField('phone', e.target.value)}
-              placeholder="+91 00000 00000"
-              required
-            />
+            <label className="section-label">Phone Number <span style={{ color: '#E53935' }}>*</span></label>
+            <div className="flex border border-border overflow-hidden bg-white" style={{ borderRadius: '0px' }}>
+              <span className="bg-gray-100 px-3 flex items-center justify-center text-[14px] text-muted border-r border-border font-semibold select-none">
+                +91
+              </span>
+              <input
+                type="tel"
+                inputMode="numeric"
+                className="flex-1 px-3 py-2.5 text-[14px] bg-white focus:outline-none"
+                style={{ border: '0px', height: '44px' }}
+                value={form.phone}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/g, '').substring(0, 10)
+                  updateField('phone', val)
+                }}
+                placeholder="Enter 10-digit mobile number"
+                required
+              />
+            </div>
           </div>
 
           <div className="flex flex-col gap-2">

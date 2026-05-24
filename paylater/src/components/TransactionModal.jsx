@@ -97,6 +97,7 @@ export default function TransactionModal({ isOpen, onClose, onSave }) {
         amount: amount,
         date: new Date(form.date).toISOString(),
         status: type === 'credit' ? 'Pending' : 'Paid',
+        type: type === 'credit' ? 'credit' : 'receipt',
         method: 'Manual',
         note: form.note.trim() || null,
       }

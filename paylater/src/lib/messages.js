@@ -20,3 +20,13 @@ Please complete the payment when possible.
 
 Thank you.`
 }
+
+export function formatPhoneNumber(phone) {
+  if (!phone) return ''
+  const cleaned = phone.replace(/\D/g, '')
+  const last10 = cleaned.length >= 10 ? cleaned.substring(cleaned.length - 10) : cleaned
+  if (last10.length === 10) {
+    return `+91 ${last10.substring(0, 5)} ${last10.substring(5)}`
+  }
+  return phone
+}
