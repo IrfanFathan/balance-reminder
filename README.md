@@ -92,7 +92,7 @@ create table customers (
 alter table customers enable row level security;
 
 -- Setup policy for authenticated shop owner access
-create policy "Authenticated access only"
+Create policy "Authenticated access only."
 on customers
 for all
 using (auth.role() = 'authenticated');
@@ -128,4 +128,4 @@ using (auth.role() = 'authenticated');
 *   **Dynamic Dashboard**: Centralizes shop status, displays total outstanding balance, and shows recent entries at a glance.
 *   **WhatsApp Reminders (Malayalam/English)**: Tapping "Remind" dynamically drafts a template tailored to the customer's preferred language, including exact outstanding balance and shop details. It launches WhatsApp with pre-filled content via native URL schemes.
 *   **Customer Ledger**: Tracks individual customer histories with clean credit vs. debit timeline visual cues.
-*   **Shop Settings**: Customize shop metadata (e.g., *Royal Fancy, Nilambur*) and configure cloud-sync parameters.
+*   **Shop Settings**: Customize shop metadata (e.g., *Royal Fancy, London*) and configure cloud-sync parameters.
